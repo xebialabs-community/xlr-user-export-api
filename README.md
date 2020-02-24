@@ -17,8 +17,6 @@ See the [XL Release reference manual](https://docs.xebialabs.com/xl-release) for
 This plugin implements a custom REST API that returns users along with their roles, folders, and permissions.
 
 ## Requirements
-
-* **Requirements**
 *  **XL Release**   9.0.0+
 
 ## Installation
@@ -28,9 +26,9 @@ This plugin implements a custom REST API that returns users along with their rol
 
 ## Usage
 
-Make an HTTP GET request to https://\<your xl release\>/api/extension/user-export/users
+Make an HTTP GET request to https://\<your xl release\>/api/extension/user-export/users.
 
-The response object is similar to the following...  
+The response object is similar to the following:
 
 ```json
 {
@@ -109,11 +107,11 @@ The response object is similar to the following...
 ### Prerequisites
 
 1. You will need to have Docker and Docker Compose installed.
-2. The XL-Release docker container expects to find a valid XL-Release license on your machine, at this location: ~/xl-licenses/xl-release-license.lic
+2. The XL-Release docker container expects to find a valid XL-Release license on your machine, at this location: ~/xl-licenses/xl-release-license.lic.
 
 ### Build and package the plugin
 
-Execute the following from the project root directory...
+Execute the following from the project root directory:
 
 ```bash
 ./gradlew clean assemble
@@ -123,13 +121,13 @@ Output will be placed in ./build/libs folder.
 
 ### To run integration tests
 
-Execute the following from the project root directory...
+Execute the following from the project root directory:
 
 ```bash
 ./gradlew clean itest
 ```
 
-The itest will set up a containerized xlr/\<???\> testbed using docker compose.
+The itest will set up a containerized xlr/\<???\> testbed using Docker Compose.
 
 ### To run demo or dev version
 
@@ -140,8 +138,8 @@ docker-compose -f docker/docker-compose.yml up
 
 NOTE:
 
-1. XL Release will run on the [localhost port 15516](http://localhost:15516/)
-2. The XL Release username / password is admin / admin
+1. XL Release will run on the [localhost port 15516](http://localhost:15516/).
+2. The XL Release username / password is admin / admin.
 
 [xlr-user-export-api-travis-image]: https://travis-ci.org/xebialabs-community/xlr-user-export-api.svg?branch=master
 [xlr-user-export-api-travis-url]: https://travis-ci.org/xebialabs-community/xlr-user-export-api
