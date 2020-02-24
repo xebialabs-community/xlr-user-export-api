@@ -15,7 +15,7 @@ import logging
 import json
 from datetime import datetime, timedelta
 
-logging.basicConfig(filename='log/plugin.log',
+logging.basicConfig(filename='log/custom-api.log',
                             filemode='a',
                             format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
                             datefmt='%H:%M:%S',
@@ -63,8 +63,6 @@ logging.debug("main: begin")
 #         - String username
 #         - boolean loginAllowed
 
-# EXAMPLE OUTPUT...
-
 # Process Users ----------------------
 # FYI: parameters are..  String email, String fullName, Boolean loginAllowed, Boolean external, Date lastActiveAfter, Date lastActiveBefore, Long page, Long resultsPerPage
 user_obj_list = userApi.findUsers(None, None, None, None, None, None, None, None)
@@ -83,15 +81,27 @@ for user_obj in user_obj_list:
 # augment users with roles
 roles = rolesApi.getRoles(0, 1000)
 
+active_roles = []
 for role in roles:
-    for principal in role.principals:       
-        role_obj = {}
-        # role_obj['name'] = role.name
-        role_obj['permissions'] = []
-        for pem in role.permissions:
-            role_obj['permissions'].append(pem)
+    if len(role.principals) > 0:
+        r = {}
+        r['name'] = role.name
+        r['principals'] = []
 
-        users[principal.username]['roles'][role.name] = role_obj
+        for principal in role.principals:
+            username = principal.username.lower()
+
+            r['principals'].append(username)
+
+            role_obj = {}
+            # role_obj['name'] = role.name
+            role_obj['permissions'] = []
+            for pem in role.permissions:
+                role_obj['permissions'].append(pem)
+
+            users[username]['roles'][role.name] = role_obj
+
+        active_roles.append(r)
 
 # Process Folders -------------------
 rootFolders = folderApi.listRoot(0, 1000, 1, True)
@@ -128,5 +138,8 @@ for folder_obj in rootFolders:
 # form response
 response.statusCode = 200
 response.entity = {
-    "users": users
+    "users": users,
+    "roles": active_roles
 }
+
+logging.debug("main: end")

@@ -23,8 +23,8 @@ This plugin implements a custom REST API that returns users along with their rol
 
 ## Installation
 
-*   Copy the latest JAR file from the [releases page](https://github.com/xebialabs-community/xlr-user-export-api/releases) into the `XL_RELEASE_SERVER/plugins/__local__` directory.
-*   Restart the XL Release server.
+* Copy the latest JAR file from the [releases page](https://github.com/xebialabs-community/xlr-user-export-api/releases) into the `XL_RELEASE_SERVER/plugins/__local__` directory.
+* Restart the XL Release server.
 
 ## Usage
 
