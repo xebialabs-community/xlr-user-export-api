@@ -26,80 +26,84 @@ This plugin implements a custom REST API that returns users along with their rol
 
 ## Usage
 
-Make an HTTP GET request to https://\<your xl release\>/api/extension/user-export/users.
+To retrieve all users, make an HTTP GET request to...
+
+```bash
+http://<your xl release>/api/extension/user-export/users.
+```
 
 The response object is similar to the following:
 
 ```json
 {
-  "entity": {
-    "users": {
-      "tjf": {
-        "email": "tfleming@xebialabs.com",
-        "lastActive": null,
-        "fullName": "Tim Fleming",
-        "loginAllowed": true,
-        "roles": {
-          "dev": {
-            "permissions": [
-              "global_variables#edit",
-              "release#create",
-              "template#create",
-              "reports#view"
-            ]
-          }
-        },
-        "folders": {
-          "CustomerService": {
-            "permissions": [
-              "release#reassign_task"
-            ]
-          }
-        }
-      },
-      "admin": {
-        "email": "",
-        "lastActive": 1570754902193,
-        "fullName": "XL Release Administrator",
-        "loginAllowed": true,
-        "roles": {},
-        "folders": {
-          "CustomerService": {
-            "permissions": [
-              "folder#edit_variables",
-              "group#edit",
-              "folder#edit_configuration",
-              "folder#view",
-              "dashboard#edit",
-              "folder#edit_security",
-              "folder#edit",
-              "dashboard#view",
-              "group#view"
-            ]
-          },
-          "Samples & Tutorials": {
-            "permissions": [
-              "folder#edit_variables",
-              "group_definition#edit",
-              "group#edit",
-              "folder#edit_configuration",
-              "folder#view",
-              "group_definition#view",
-              "dashboard#edit",
-              "folder#edit_security",
-              "folder#edit",
-              "dashboard#view",
-              "group#view"
-            ]
-          }
-        }
-      }
-    }
-  },
-  "stdout": "",
-  "stderr": "",
-  "exception": null
+	"entity": {
+		"roles": [{
+			"name": "devops",
+			"principals": ["tim"]
+		}],
+		"users": {
+			"admin": {
+				"email": "",
+				"lastActive": 1585193051078,
+				"fullName": "XL Release Administrator",
+				"loginAllowed": true,
+				"roles": {},
+				"folders": {
+					"DevOps": {
+						"permissions": ["template#edit", "template#lock_task", "template#view", "folder#view", "template#edit_triggers", "template#edit_precondition", "template#create_release", "template#edit_failure_handler"],
+						"type": "PRINCIPAL"
+					},
+					"Samples & Tutorials": {
+						"permissions": [],
+						"type": "PRINCIPAL"
+					}
+				}
+			},
+			"tim": {
+				"email": "tim@xebialabs.com",
+				"lastActive": null,
+				"fullName": "Tim",
+				"loginAllowed": true,
+				"roles": {
+					"devops": {
+						"permissions": ["reports#view"]
+					}
+				},
+				"folders": {
+					"DevOps": {
+						"permissions": ["template#view", "folder#view"],
+						"type": "ROLE"
+					}
+				}
+			}
+		}
+	},
+	"stdout": "",
+	"stderr": "",
+	"exception": null
 }
+```
+
+Regarding folders, a user may have access to a folder either because they are assigned to the folder as a 'principal', or because
+they belong to a 'role' that is assigned to the folder.  As shown in the example above, the folder 'type' property is used to 
+distinguish between these cases.
+
+### Pagination
+
+If you have many users, you may want to paginate results.  Use the 'page' and 'resultsPerPage' query parameters to paginate through the results:
+
+```bash
+http://<your xl release>/api/extension/user-export/users?page=0&resultsPerPage=10
+```
+
+The first page is '0'.
+
+### Find A Specific User
+
+You may limit the search to a single user with the 'userid' query parameter.  For example:
+
+```bash
+http://<your xl release>/api/extension/user-export/users?userid=admin
 ```
 
 ## Developers
