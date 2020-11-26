@@ -83,13 +83,14 @@ else:
 users = {}
 for user_obj in user_obj_list:
     user = {}
+    user['username'] = user_obj.username.lower()
     user['fullName'] = user_obj.fullName
     user['email'] = user_obj.email
     user['loginAllowed'] = user_obj.loginAllowed
     user['lastActive'] = user_obj.lastActive
     user['roles'] = {}
     user['folders'] = {}
-    users[user_obj.username] = user
+    users[user['username']] = user
 
 # augment users with roles
 roles = rolesApi.getRoles(0, 1000)
