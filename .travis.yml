@@ -5,8 +5,8 @@ before_install:
   -in deploy_key.enc -out ./deploy_key -d
 - eval "$(ssh-agent -s)"
 - echo -e "Host $DIST_HOST\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-- chmod 600 /tmp/deploy_key
-- ssh-add /tmp/deploy_key
+- chmod 600 ./deploy_key
+- ssh-add ./deploy_key
 - chmod +x gradlew
 deploy:
 - provider: releases
